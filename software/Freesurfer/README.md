@@ -2,6 +2,8 @@
 
 https://surfer.nmr.mgh.harvard.edu/
 
+Requires a `license.txt` file which can be obtained from [here](https://surfer.nmr.mgh.harvard.edu/registration.html).
+
 ## Docker container
 
 https://hub.docker.com/r/freesurfer/freesurfer
