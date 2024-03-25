@@ -21,6 +21,6 @@ jobs:
         uses: actions/checkout@v4
       - name: build image
         run: |
-          set -euxo pipefial
+          set -euxo pipefail
           cd software/Freesurfer
           podman build .
