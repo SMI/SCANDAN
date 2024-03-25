@@ -41,9 +41,8 @@ RUN : \
     && rm -rf /var/lib/apt/lists/* \
     && :
 
-SHELL ["/bin/bash", "-c"]
 RUN : \
-    && set -euo pipefail \
+    && set -eu \
     && mkdir -p /opt/freesurfer-7.3.0 \
     && cd /tmp \
     && curl -fL https://surfer.nmr.mgh.harvard.edu/pub/dist/freesurfer/7.3.0/freesurfer-linux-centos7_x86_64-7.3.0.tar.gz \
