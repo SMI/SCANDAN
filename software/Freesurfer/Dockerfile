@@ -45,7 +45,7 @@ RUN : \
     && set -eu \
     && mkdir -p /opt/freesurfer-7.3.0 \
     && cd /tmp \
-    && curl -fL https://surfer.nmr.mgh.harvard.edu/pub/dist/freesurfer/7.3.0/freesurfer-linux-centos7_x86_64-7.3.0.tar.gz \
+    && curl -sfL https://surfer.nmr.mgh.harvard.edu/pub/dist/freesurfer/7.3.0/freesurfer-linux-centos7_x86_64-7.3.0.tar.gz \
          | tar -xz -C /opt/freesurfer-7.3.0 --owner root --group root --no-same-owner --strip-components 1 \
              --exclude='average/mult-comp-cor' \
              --exclude='lib/cuda' \
