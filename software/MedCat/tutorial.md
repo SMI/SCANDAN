@@ -100,17 +100,23 @@ cd container
 sudo docker build -t abrooks/medcat .
 ```
 
+The build process may take some time, but when you edit your script
+during development and re-run the build command then it will complete
+much quicker.
 
-Run the container, and pass it the filename of a model.zip.
-The `-v` option makes your local directory `$(pwd)/..` available
-inside the container as the path `/models`.
+Run the container, and pass it the filename of a model.zip,
+and the input and output file names.
+The `-v src:dest` option makes your local directory `src` available
+inside the container as the path `dest`.
+As a general rule your containers should be built to expect only two
+directories, `/safe_data` (for inputs) and `/safe_outputs`.
 After the name of the container you can pass any arguments to the script.
 ```
 sudo docker run --rm \
   -v $(pwd)/input:/safe_data \
   -v $(pwd)/output:/safe_outputs \
   abrooks/medcat \
-  /models/mc_modelpack_snomed_int_16_mar_2022_25be3857ba34bdd5.zip \
+  /safe_data/models/mc_modelpack_snomed_int_16_mar_2022_25be3857ba34bdd5.zip \
   /safe_data/docs/doc1.txt \
   /safe_outputs/doc1.json
 ```
