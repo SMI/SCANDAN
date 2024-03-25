@@ -1,0 +1,26 @@
+---
+
+name: main
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+  # schedule:
+  #  - cron: "0 6 * * *"
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  freesurfer:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: build image
+        run: |
+          set -euxo pipefial
+          cd software/Freesurfer
+          podman build .
