@@ -22,5 +22,6 @@ jobs:
       - name: build image
         run: |
           set -euxo pipefail
+          df -h
           cd software/Freesurfer
           podman build .
