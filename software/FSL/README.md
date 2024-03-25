@@ -2,7 +2,11 @@
 
 https://fsl.fmrib.ox.ac.uk/fsl/fslwiki
 
-## Docker container
+## Docker containers
+
+A container with a relatively old version (5.0.7) can be build from `fsl5.Dockerfile`.
+
+### Neurodocker
 
 Using [neurodocker](https://www.repronim.org/neurodocker/index.html):
 
@@ -17,4 +21,5 @@ $ docker run --rm repronim/neurodocker \
 
 $ docker build --tag fsl:6.0.5 --file fsl605.Dockerfile .
 ```
+
 
