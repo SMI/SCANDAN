@@ -1,6 +1,6 @@
 # FSL
 
-https://surfer.nmr.mgh.harvard.edu/
+https://fsl.fmrib.ox.ac.uk/fsl/fslwiki
 
 ## Docker container
 
