@@ -16,6 +16,7 @@ defaults:
 jobs:
   freesurfer:
     runs-on: ubuntu-22.04
+    if: false # temp
     steps:
       - name: checkout
         uses: actions/checkout@v4
@@ -33,6 +34,7 @@ jobs:
           docker build .
   fsl:
     runs-on: ubuntu-22.04
+    if: false # temp
     steps:
       - name: checkout
         uses: actions/checkout@v4
@@ -48,3 +50,13 @@ jobs:
           df -h
           cd software/FSL
           docker build .
+  test:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: build
+        run: |
+          set -euxo pipefail
+          docker pull hello-world:latest
+          docker tag hello-world:latest ghcr.io/smi/test:latest
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
+          docker push ghcr.io/smi/test:latest
