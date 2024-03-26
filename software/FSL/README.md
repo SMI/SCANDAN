@@ -1,6 +1,8 @@
 # FSL
 
-https://fsl.fmrib.ox.ac.uk/fsl/fslwiki
+https://fsl.fmrib.ox.ac.uk/fsl/docs/#/
+
+Old site at https://fsl.fmrib.ox.ac.uk/fsl/fslwiki
 
 ## Docker containers
 
@@ -21,6 +23,10 @@ docker run --rm -it \
     -v $XAUTH:$XAUTH \
     <image-name>
 ```
+
+### FSL Documentation
+
+The new FSL site provides [these](https://fsl.fmrib.ox.ac.uk/fsl/docs/#/install/container?id=install-fsl-into-a-dockersingularity-container) instructions. This has been translated into the main `Dockerfile` in this directory.
 
 ### Neurodocker
 
