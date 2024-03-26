@@ -37,8 +37,11 @@ jobs:
           set -euxo pipefail
           package="${{ matrix.package }}"
           cd "software/$package"
-          img="ghcr.io/smi/${package,,}:$(grep _VERSION= Dockerfile | cut -d'"' -f2)"
-          echo "$img"
-          docker build . --tag "$img"
+          img="ghcr.io/smi/${package,,}"
+          tag="$(grep _VERSION= Dockerfile | cut -d'"' -f2)"
+          echo "$img:$tag"
+          docker build . --tag "$img:$tag"
           # echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
-          # docker push "$img"
+          # docker push "$img:$tag"
+          docker tag "$img:$tag" "$img:latest"
+          # docker push "$img:latest"
