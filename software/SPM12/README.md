@@ -6,11 +6,13 @@ https://www.fil.ion.ucl.ac.uk/spm/docs/
 
 ## Docker container
 
-"Official" image is `spmcentral/spm`, last updated 3 years ago. See https://www.fil.ion.ucl.ac.uk/spm/docs/installation/containers/#spm-containers
+Official image is `ghcr.io/spm/spm-docker:docker-matlab` (see https://github.com/spm/spm-docker?tab=readme-ov-file#container-registry).
+
+Example usage is:
 
 ```console
 $ xhost +local:docker
-$ docker run -ti --rm -e DISPLAY=$DISPLAY -v /tmp:/tmp -v /tmp/.X11-unix:/tmp/.X11-unix spmcentral/spm fmri
+$ docker run -ti --rm -e DISPLAY=$DISPLAY -v /tmp:/tmp -v /tmp/.X11-unix:/tmp/.X11-unix ghcr.io/spm/spm-docker:docker-matlab fmri
 ```
 
 Alternatively, using [neurodocker](https://www.repronim.org/neurodocker/index.html):
