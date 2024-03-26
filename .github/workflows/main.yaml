@@ -21,6 +21,8 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
       - name: skip if unchanged
         run: |
           set -euxo pipefail
