@@ -1,0 +1,52 @@
+---
+name: main
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+  # schedule:
+  #  - cron: "0 6 * * *"
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  containers:
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        package: ["FSL", "Freesurfer"]
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: free disk space
+        run: |
+          set -euxo pipefail
+          df -h
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /usr/local/share/boost
+          sudo rm -rf /opt/ghc
+          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+          sudo docker image prune --all --force
+          df -h
+      - name: build image
+        run: |
+          set -euxo pipefail
+          package="${{ matrix.package }}"
+          cd "software/$package"
+          img="ghcr.io/smi/${package,,}"
+          tag="$(grep _VERSION= Dockerfile | cut -d'"' -f2)"
+          docker build . --tag "$img:$tag"
+          docker tag "$img:$tag" "$img:latest"
+          echo "img=$img" >> "$GITHUB_ENV"
+          echo "tag=$tag" >> "$GITHUB_ENV"
+      - name: push image
+        if: github.ref == 'refs/heads/main'
+        run: |
+          set -euxo pipefail
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
+          docker push "$img:$tag"
+          docker push "$img:latest"

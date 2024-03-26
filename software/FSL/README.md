@@ -1,8 +1,34 @@
 # FSL
 
-https://surfer.nmr.mgh.harvard.edu/
+https://fsl.fmrib.ox.ac.uk/fsl/docs/#/
 
-## Docker container
+Old site at https://fsl.fmrib.ox.ac.uk/fsl/fslwiki
+
+## Docker containers
+
+A container with a relatively old version (5.0.7) can be build from `fsl5.Dockerfile`.
+
+To run with the correct display options, use:
+
+```console
+XSOCK=/tmp/.X11-unix
+XAUTH=/tmp/.docker.xauth
+xauth nlist "$DISPLAY" | sed -e 's/^..../ffff/' | xauth -f "$XAUTH" nmerge -
+
+docker run --rm -it \
+    -e USER="$USER" \
+    -e DISPLAY="$DISPLAY" \
+    -e XAUTHORITY="$XAUTH" \
+    -v $XSOCK:$XSOCK \
+    -v $XAUTH:$XAUTH \
+    <image-name>
+```
+
+### FSL Documentation
+
+The new FSL site provides [these](https://fsl.fmrib.ox.ac.uk/fsl/docs/#/install/container?id=install-fsl-into-a-dockersingularity-container) instructions. This has been translated into the main `Dockerfile` in this directory.
+
+### Neurodocker
 
 Using [neurodocker](https://www.repronim.org/neurodocker/index.html):
 
@@ -17,4 +43,5 @@ $ docker run --rm repronim/neurodocker \
 
 $ docker build --tag fsl:6.0.5 --file fsl605.Dockerfile .
 ```
+
 
