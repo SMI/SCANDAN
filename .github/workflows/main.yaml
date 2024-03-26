@@ -30,7 +30,7 @@ jobs:
           sudo rm -rf "$AGENT_TOOLSDIRECTORY"
           df -h
           cd software/Freesurfer
-          podman build .
+          docker build .
   fsl:
     runs-on: ubuntu-22.04
     steps:
@@ -47,4 +47,4 @@ jobs:
           sudo rm -rf "$AGENT_TOOLSDIRECTORY"
           df -h
           cd software/FSL
-          podman build .
+          docker build .
