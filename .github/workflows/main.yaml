@@ -39,9 +39,14 @@ jobs:
           cd "software/$package"
           img="ghcr.io/smi/${package,,}"
           tag="$(grep _VERSION= Dockerfile | cut -d'"' -f2)"
-          echo "$img:$tag"
           docker build . --tag "$img:$tag"
-          # echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
-          # docker push "$img:$tag"
           docker tag "$img:$tag" "$img:latest"
-          # docker push "$img:latest"
+          echo "img=$img" >> "$GITHUB_ENV"
+          echo "tag=$tag" >> "$GITHUB_ENV"
+      - name: push image
+        if: github.ref == 'refs/heads/main'
+        run: |
+          set -euxo pipefail
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
+          docker push "$img:$tag"
+          docker push "$img:latest"
