@@ -1,5 +1,4 @@
 ---
-
 name: main
 
 on:
@@ -14,43 +13,30 @@ defaults:
     shell: bash
 
 jobs:
-  freesurfer:
+  containers:
     runs-on: ubuntu-22.04
-    if: false # temp
+    strategy:
+      matrix:
+        package: ["FSL", "Freesurfer"]
     steps:
       - name: checkout
         uses: actions/checkout@v4
-      - name: build image
+      - name: free disk space
         run: |
           set -euxo pipefail
-          # Debug
-          df -h
-          sudo rm -rf /usr/share/dotnet
-          sudo rm -rf /usr/local/share/boost
-          sudo rm -rf /opt/ghc
-          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
-          df -h
-          cd software/Freesurfer
-          docker build .
-  fsl:
-    runs-on: ubuntu-22.04
-    steps:
-      - name: checkout
-        uses: actions/checkout@v4
-      - name: build image
-        run: |
-          set -euxo pipefail
-          # Debug
           df -h
           sudo rm -rf /usr/share/dotnet
           sudo rm -rf /usr/local/lib/android
           sudo rm -rf /usr/local/share/boost
           sudo rm -rf /opt/ghc
-          sudo docker image prune --all --force
           sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+          sudo docker image prune --all --force
           df -h
-          cd software/FSL
-          img="ghcr.io/smi/fsl:$(grep FSL_VERSION= Dockerfile | cut -d'"' -f2)"
-          docker build . --tag "$img"
-          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
-          docker push "$img"
+      - name: build image
+        run: |
+          set -euxo pipefail
+          cd software/$package
+          # img="ghcr.io/smi/fsl:$(grep FSL_VERSION= Dockerfile | cut -d'"' -f2)"
+          # docker build . --tag "$img"
+          # echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
+          # docker push "$img"
