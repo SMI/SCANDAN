@@ -31,7 +31,7 @@ jobs:
           fi
           echo "skip=$skip" >> "$GITHUB_ENV"
       - name: free disk space
-        if: env.SKIP == "0"
+        if: env.SKIP == '0'
         run: |
           set -euxo pipefail
           df -h
@@ -43,7 +43,7 @@ jobs:
           sudo docker image prune --all --force
           df -h
       - name: build image
-        if: env.SKIP == "0"
+        if: env.SKIP == '0'
         run: |
           set -euxo pipefail
           package="${{ matrix.package }}"
@@ -55,7 +55,7 @@ jobs:
           echo "img=$img" >> "$GITHUB_ENV"
           echo "tag=$tag" >> "$GITHUB_ENV"
       - name: push image
-        if: env.SKIP == "0" && github.ref == 'refs/heads/main'
+        if: env.SKIP == '0' && github.ref == 'refs/heads/main'
         run: |
           set -euxo pipefail
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
