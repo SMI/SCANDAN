@@ -35,8 +35,10 @@ jobs:
       - name: build image
         run: |
           set -euxo pipefail
-          cd "software/${{ matrix.package }}"
-          # img="ghcr.io/smi/fsl:$(grep FSL_VERSION= Dockerfile | cut -d'"' -f2)"
-          # docker build . --tag "$img"
+          package="${{ matrix.package }}"
+          cd "software/$package"
+          img="ghcr.io/smi/${package,,}:$(grep _VERSION= Dockerfile | cut -d'"' -f2)"
+          echo "$img"
+          docker build . --tag "$img"
           # echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
           # docker push "$img"
