@@ -22,6 +22,10 @@ jobs:
       - name: build image
         run: |
           set -euxo pipefail
+          # Debug
+          df -h
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
           df -h
           cd software/Freesurfer
           podman build .
