@@ -1,7 +1,5 @@
 FROM ubuntu:20.04
 
-# test!
-
 ARG FSL_VERSION="6.0.7.9"
 
 ENV FSLDIR="/usr/local/fsl"
