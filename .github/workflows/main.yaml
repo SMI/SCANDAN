@@ -24,10 +24,10 @@ jobs:
       - name: skip if unchanged
         run: |
           set -euxo pipefail
-          if ! git diff --name-only HEAD^ | grep "software/${{ matrix.package }}" | grep -v README > /dev/null;
+          SKIP=0
+          if ! git diff --name-only HEAD^ | grep "software/${{ matrix.package }}" | grep -v README > /dev/null
+          then
             SKIP=1
-          else
-            SKIP=0
           fi
           echo "skip=$skip" >> "$GITHUB_ENV"
       - name: free disk space
