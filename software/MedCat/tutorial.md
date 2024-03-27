@@ -126,11 +126,49 @@ If you need to examine the files inside the container or need a shell:
 sudo docker run --rm -it --entrypoint /bin/bash abrooks/medcat
 ```
 
-To do: explain how a script can be written to run outside a container
+# To do
+
+Explain how a script can be written to run outside a container
 on local files and then be modified to run inside a container with the
 /safe_data and /safe_outputs directories.
 
-OLD:
+# Running on a GPU cluster
+
+The procedure for running on a GPU cluster is more complex because,
+for the moment anyway, the cluster does not have access to a local
+filesystem, and also the container image must be pulled from a
+repository and not from the docker/podman on the local computer.
+
+We can reuse the container image built above but first we need to push
+it to a container hub, for example:
+```
+docker login
+docker push abrooks/medcat
+```
+
+The next step is to create a storage volume (called a PV or
+Persistent Volume) in the cluster using a PVC (Persistent Volume Claim).
+The input files, in our case the text document and a language model,
+need to be copied into the storage volume.
+
+The cluster is then told how to run the container, after which the output
+files need to be copied out of the storage volume.
+
+Unfortunately copying files into and out of a storage volume requires
+a container to be running, so we use a container which is simply sleeping
+to do this, as it consumes no CPU/GPU resources.
+
+See the script [run_on_gpu_cluster.sh](run_on_gpu_cluster.sh)
+
+Use `./run_on_gpu_cluster.sh` to run the job.
+
+Use `./run_on_gpu_cluster.sh status` to see what is running/finished.
+
+Use `./run_on_gpu_cluster.sh delete` to remove any running/finished jobs and remove the storage volume.
+
+Use `kubectl -n eidf040ns logs <podname>` to get the screen output.
+
+# OLD
 
 ```
 # RUN . /venv/bin/activate && pip install https://s3-us-west-2.amazonaws.com/ai2-s2-scispacy/releases/v0.4.0/en_core_sci_md-0.4.0.tar.gz && pip install https://s3-us-west-2.amazonaws.com/ai2-s2-scispacy/releases/v0.4.0/en_core_sci_lg-0.4.0.tar.gz
