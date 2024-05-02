@@ -31,7 +31,8 @@ jobs:
           then
             SKIP=1
           fi
-          echo "SKIP=$SKIP" >> "$GITHUB_ENV"
+          # echo "SKIP=$SKIP" >> "$GITHUB_ENV"
+          echo "SKIP=0" >> "$GITHUB_ENV"
       - name: free disk space
         if: env.SKIP == '0'
         run: |
@@ -68,7 +69,8 @@ jobs:
           severity: 'MEDIUM,CRITICAL,HIGH'
           scanners: "vuln"
       - name: push image
-        if: env.SKIP == '0' && github.ref == 'refs/heads/main'
+        # if: env.SKIP == '0' && github.ref == 'refs/heads/main'
+        if: false
         run: |
           set -euxo pipefail
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
