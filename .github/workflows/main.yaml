@@ -17,8 +17,7 @@ jobs:
     runs-on: ubuntu-22.04
     strategy:
       matrix:
-        # package: ["FSL", "Freesurfer"]
-        package: ["test"]
+        package: ["FSL", "Freesurfer"]
     steps:
       - name: checkout
         uses: actions/checkout@v4
@@ -32,8 +31,7 @@ jobs:
           then
             SKIP=1
           fi
-          # echo "SKIP=$SKIP" >> "$GITHUB_ENV"
-          echo "SKIP=0" >> "$GITHUB_ENV"
+          echo "SKIP=$SKIP" >> "$GITHUB_ENV"
       - name: free disk space
         if: env.SKIP == '0'
         run: |
@@ -44,7 +42,6 @@ jobs:
           sudo rm -rf /usr/local/share/boost
           sudo rm -rf /opt/ghc
           sudo rm -rf "$AGENT_TOOLSDIRECTORY"
-          # sudo docker image prune --all --force
           df -h
       - name: build image
         if: env.SKIP == '0'
@@ -70,8 +67,7 @@ jobs:
           severity: 'MEDIUM,CRITICAL,HIGH'
           scanners: "vuln"
       - name: push image
-        # if: env.SKIP == '0' && github.ref == 'refs/heads/main'
-        if: false
+        if: env.SKIP == '0' && github.ref == 'refs/heads/main'
         run: |
           set -euxo pipefail
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
