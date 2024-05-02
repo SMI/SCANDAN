@@ -57,7 +57,7 @@ jobs:
           echo "img=$img" >> "$GITHUB_ENV"
           echo "tag=$tag" >> "$GITHUB_ENV"
       - name: run trivy
-        uses: aquasecurity/trivy-action@v0.19.0
+        uses: aquasecurity/trivy-action@master
         with:
           image-ref: "$img:$tag"
           format: 'github'
