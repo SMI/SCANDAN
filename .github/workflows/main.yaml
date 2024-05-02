@@ -65,6 +65,7 @@ jobs:
           exit-code: '1'
           github-pat: "${{ secrets.GITHUB_TOKEN }}"
           severity: 'MEDIUM,CRITICAL,HIGH'
+          scanners: "vuln"
       - name: push image
         if: env.SKIP == '0' && github.ref == 'refs/heads/main'
         run: |
