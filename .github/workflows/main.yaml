@@ -43,7 +43,7 @@ jobs:
           sudo rm -rf /usr/local/share/boost
           sudo rm -rf /opt/ghc
           sudo rm -rf "$AGENT_TOOLSDIRECTORY"
-          sudo docker image prune --all --force
+          # sudo docker image prune --all --force
           df -h
       - name: build image
         if: env.SKIP == '0'
