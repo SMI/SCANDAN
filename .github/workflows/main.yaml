@@ -57,6 +57,7 @@ jobs:
           echo "img=$img" >> "$GITHUB_ENV"
           echo "tag=$tag" >> "$GITHUB_ENV"
       - name: run trivy
+        if: env.SKIP == '0'
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: "${{ env.img }}:${{ env.tag }}"
