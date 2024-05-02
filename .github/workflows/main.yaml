@@ -66,6 +66,11 @@ jobs:
           github-pat: "${{ secrets.GITHUB_TOKEN }}"
           severity: 'MEDIUM,CRITICAL,HIGH'
           scanners: "vuln"
+      - name: upload trivy report
+        uses: actions/upload-artifact@v4
+        with:
+          name: 'trivy-sbom-report-${{ matrix.package }}'
+          path: 'dependency-results.sbom.json'
       - name: push image
         if: env.SKIP == '0' && github.ref == 'refs/heads/main'
         run: |
