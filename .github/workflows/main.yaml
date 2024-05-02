@@ -67,6 +67,7 @@ jobs:
           severity: 'MEDIUM,CRITICAL,HIGH'
           scanners: "vuln"
       - name: upload trivy report
+        if: env.SKIP == '0'
         uses: actions/upload-artifact@v4
         with:
           name: 'trivy-sbom-report-${{ matrix.package }}'
