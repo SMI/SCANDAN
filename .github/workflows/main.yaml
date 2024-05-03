@@ -73,8 +73,7 @@ jobs:
           name: 'trivy-sbom-report-${{ matrix.package }}'
           path: 'dependency-results.sbom.json'
       - name: push image
-        # if: env.SKIP == '0' && github.ref == 'refs/heads/main'
-        if: false
+        if: env.SKIP == '0' && github.ref == 'refs/heads/main'
         run: |
           set -euxo pipefail
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
