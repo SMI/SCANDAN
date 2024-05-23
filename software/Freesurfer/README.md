@@ -14,6 +14,8 @@ $ docker pull freesurfer/freesurfer
 
 An updated image can be build from the included `Dockerfile`.
 
+Version 7.4.1 can be pulled from https://github.com/smi/SCANDAN/pkgs/container/freesurfer
+
 Alternatively, using [neurodocker](https://www.repronim.org/neurodocker/index.html):
 
 ```console
