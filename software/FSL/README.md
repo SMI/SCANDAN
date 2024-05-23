@@ -8,6 +8,7 @@ Old site at https://fsl.fmrib.ox.ac.uk/fsl/fslwiki
 
 A container with a relatively old version (5.0.7) can be build from `fsl5.Dockerfile`.
 
+Version 6.0.7.9 can be run from https://github.com/smi/SCANDAN/pkgs/container/fsl
 
 ### FSL Documentation
 
