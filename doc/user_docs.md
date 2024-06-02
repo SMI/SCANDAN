@@ -18,8 +18,10 @@ Your project data will be made available in `/safe_data/2223-0200`
 
 ## Access to software
 
+### R and Python
+
 You can write software in R or Python, and you have access to the software
-repositories CRAN and PyPi respectively.
+repositories CRAN and PyPi respectively, plus Bioconductor.
 
 NOTE: for Python users - the default Python is supplied by Anaconda
 (`/usr/local/bin/python`) but this is an old version 3.7. The whole
@@ -38,4 +40,25 @@ pip3 install virtualenv
 source ~/my_venv/bin/activate
 # If you wish to switch to a different one then:
 deactivate
+```
+
+### FSL
+
+Currently the way to access this is:
+```
+/safe_data/tmp/fsl/fsl.sh
+```
+
+### FreeSurfer
+
+Currently the way to access this is:
+```
+/safe_data/tmp/freesurfer/freeview.sh
+```
+
+### 3D-Slicer
+
+Currently the way to access this is:
+```
+/safe_data/tmp/Slicer/slicer.sh
 ```
