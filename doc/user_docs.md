@@ -60,5 +60,5 @@ Currently the way to access this is:
 
 Currently the way to access this is:
 ```
-/safe_data/tmp/Slicer/slicer.sh
+/safe_data/tmp/slicer/Slicer
 ```
