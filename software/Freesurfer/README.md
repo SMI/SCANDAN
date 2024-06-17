@@ -6,13 +6,13 @@ Requires a `license.txt` file which can be obtained from [here](https://surfer.n
 
 ## Docker containers
 
-Official image is https://hub.docker.com/r/freesurfer/freesurfer, however latest image is 7.2.0 (released July 2021), and latest release is 7.4.1 (released June 2023).
+Official image is https://hub.docker.com/r/freesurfer/freesurfer, with the latest version being 7.4.1 (released June 2023).
 
 ```console
-$ docker pull freesurfer/freesurfer
+$ docker pull freesurfer/freesurfer:7.4.1
 ```
 
-An updated image can be build from the included `Dockerfile`.
+An alternative image can be build from the included `Dockerfile`.
 
 Version 7.4.1 can be pulled from https://github.com/smi/SCANDAN/pkgs/container/freesurfer
 
