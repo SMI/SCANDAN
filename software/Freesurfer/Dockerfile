@@ -7,6 +7,8 @@ ENV \
     LANG="en_GB.UTF-8" \
     LC_ALL="en_GB.UTF-8"
 
+SHELL ["/bin/bash", "-euo", "pipefail", "-c"]
+
 RUN : \
     && apt-get update -qq \
     && DEBIAN_FRONTEND=noninteractive apt-get install \
@@ -18,7 +20,6 @@ RUN : \
     && :
 
 RUN : \
-    && set -eu \
     && deb="freesurfer_ubuntu22-${FREESURFER_VERSION}_amd64.deb" \
     && curl -sfLo "${deb}" "https://surfer.nmr.mgh.harvard.edu/pub/dist/freesurfer/${FREESURFER_VERSION}/${deb}" \
     && echo "${FREESURFER_DEB_MD5} ${deb}" | md5sum -c \
