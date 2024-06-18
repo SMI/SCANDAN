@@ -14,24 +14,67 @@ RUN : \
     && apt-get upgrade -qq \
     && DEBIAN_FRONTEND=noninteractive apt-get install \
          -qq -y --no-install-recommends \
+         bash \
+         bc \
+         binutils \
          ca-certificates \
+         csh \
          curl \
-         locales \
+         file \
+         gettext \
+         gzip \
+         language-pack-en \
+         libbsd0 \
+         libegl1 \
+         libgl1 \
+         libglu1-mesa \
+         libglvnd0 \
+         libglx0 \
+         libjpeg62 \
+         libncurses5 \
+         libopengl0 \
+         libpcre3 \
+         libquadmath0 \
+         libsm6 \
+         libwayland-cursor0 \
+         libx11-dev \
+         libxcb-icccm4 \
+         libxcb-image0 \
+         libxcb-keysyms1 \
+         libxcb-render-util0 \
+         libxcb-render0 \
+         libxcb-shape0 \
+         libxcb-sync1 \
+         libxcb-xfixes0 \
+         libxcb-xinerama0 \
+         libxcb-xinput0 \
+         libxcb-xkb1 \
+         libxdmcp6 \
+         libxext6 \
+         libxi6 \
+         libxkbcommon-x11-0 \
+         libxkbcommon0 \
+         libxrender1 \
+         libxss1 \
+         libxt6 \
+         make \
+         perl \
+         tar \
+         tcsh \
+         x11-apps \
+         xorg \
+         xorg-dev \
+         xserver-xorg-video-intel \
+         xterm \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
-    && locale-gen "${LC_ALL}" \
     && :
 
 RUN : \
     && deb="freesurfer_ubuntu22-${FREESURFER_VERSION}_amd64.deb" \
     && curl -sfLo "${deb}" "https://surfer.nmr.mgh.harvard.edu/pub/dist/freesurfer/${FREESURFER_VERSION}/${deb}" \
     && echo "${FREESURFER_DEB_MD5} ${deb}" | md5sum -c \
-    && apt-get update -qq \
-    && DEBIAN_FRONTEND=noninteractive apt-get install \
-           -y --no-install-recommends \
-           "./${deb}" \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* \
+    && dpkg -i "${deb}" \
     && rm "${deb}" \
     && :
 
