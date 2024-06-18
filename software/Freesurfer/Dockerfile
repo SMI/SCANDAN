@@ -35,5 +35,5 @@ RUN : \
     && rm "${deb}" \
     && :
 
-RUN useradd --system --no-user-group nonroot
+RUN groupadd --system nonroot && useradd --no-log-init --system --gid nonroot nonroot
 USER nonroot
