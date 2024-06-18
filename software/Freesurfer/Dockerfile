@@ -30,3 +30,6 @@ RUN : \
     && rm -rf /var/lib/apt/lists/* \
     && rm "${deb}" \
     && :
+
+RUN useradd --system --no-user-group nonroot
+USER nonroot
