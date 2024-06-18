@@ -11,12 +11,15 @@ SHELL ["/bin/bash", "-euo", "pipefail", "-c"]
 
 RUN : \
     && apt-get update -qq \
+    && apt-get upgrade -qq \
     && DEBIAN_FRONTEND=noninteractive apt-get install \
-           -qq -y --no-install-recommends \
-           ca-certificates \
-           curl \
+         -qq -y --no-install-recommends \
+         ca-certificates \
+         curl \
+         locales \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
+    && locale-gen "${LC_ALL}" \
     && :
 
 RUN : \
