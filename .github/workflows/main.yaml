@@ -46,6 +46,7 @@ jobs:
 
           # debug
           docker image ls -a --digests --no-trunc
+          tree -d -L 3 /mnt
       - name: build image
         if: env.SKIP == '0'
         run: |
