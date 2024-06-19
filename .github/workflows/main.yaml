@@ -37,7 +37,6 @@ jobs:
         uses: jlumbroso/free-disk-space@main
         with:
           tool-cache: true
-          docker-images: false
       - name: build image
         if: env.SKIP == '0'
         run: |
@@ -63,20 +62,36 @@ jobs:
           docker image ls -a --digests --no-trunc
       - name: run trivy
         if: env.SKIP == '0'
-        uses: aquasecurity/trivy-action@master
-        with:
-          image-ref: "${{ env.img }}:${{ env.tag }}"
-          format: 'github'
-          output: 'dependency-results.sbom.json'
-          github-pat: "${{ secrets.GITHUB_TOKEN }}"
-          severity: 'MEDIUM,CRITICAL,HIGH'
-          scanners: "vuln"
-      - name: upload trivy report
-        if: env.SKIP == '0' && !cancelled()
-        uses: actions/upload-artifact@v4
-        with:
-          name: 'trivy-sbom-report-${{ matrix.package }}'
-          path: 'dependency-results.sbom.json'
+        run: |
+          set -euxo pipefail
+          out_dir=$(mktemp -d)
+          docker run \
+            -v /var/run/docker.sock:/var/run/docker.sock \
+            -v "${out_dir}":/out
+            docker.io/aquasec/trivy:0.52.2 \
+              image \
+              --scaners vuln \
+              --severity MEDIUM,HIGH,CRITICAL \
+              --output /out/dependency-results.sbom.json \
+              "$img:$tag"
+          ls -la "${out_dir}"
+      # - name: run trivy
+      #   if: env.SKIP == '0'
+      #   uses: aquasecurity/trivy-action@master
+      #   with:
+      #     image-ref: "${{ env.img }}:${{ env.tag }}"
+      #     format: 'github'
+      #     output: 'dependency-results.sbom.json'
+      #     github-pat: "${{ secrets.GITHUB_TOKEN }}"
+      #     severity: 'MEDIUM,CRITICAL,HIGH'
+      #     scanners: "vuln"
+      # TODO
+      # - name: upload trivy report
+      #   if: env.SKIP == '0' && !cancelled()
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: 'trivy-sbom-report-${{ matrix.package }}'
+      #     path: 'dependency-results.sbom.json'
       - name: push image
         if: env.SKIP == '0' && github.ref == 'refs/heads/main'
         run: |
