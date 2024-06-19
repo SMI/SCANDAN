@@ -32,6 +32,10 @@ jobs:
             SKIP=1
           fi
           echo "SKIP=$SKIP" >> "$GITHUB_ENV"
+      - name: Run jlumbroso/free-disk-space@main
+        uses: jlumbroso/free-disk-space@main
+        with:
+          tool-cache: true
       - name: free disk space
         if: env.SKIP == '0'
         run: |
@@ -46,8 +50,6 @@ jobs:
 
           # debug
           docker image ls -a --digests --no-trunc
-          ls -l /
-          mkdir -p /mnt/tmp
       - name: build image
         if: env.SKIP == '0'
         run: |
