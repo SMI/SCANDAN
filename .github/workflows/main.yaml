@@ -33,23 +33,10 @@ jobs:
           fi
           echo "SKIP=$SKIP" >> "$GITHUB_ENV"
       - name: Run jlumbroso/free-disk-space@main
+        if: env.SKIP == '0'
         uses: jlumbroso/free-disk-space@main
         with:
           tool-cache: true
-      - name: free disk space
-        if: env.SKIP == '0'
-        run: |
-          set -euxo pipefail
-          df -h
-          sudo rm -rf /usr/share/dotnet
-          sudo rm -rf /usr/local/lib/android
-          sudo rm -rf /usr/local/share/boost
-          sudo rm -rf /opt/ghc
-          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
-          df -h
-
-          # debug
-          docker image ls -a --digests --no-trunc
       - name: build image
         if: env.SKIP == '0'
         run: |
@@ -68,7 +55,7 @@ jobs:
           set -euxo pipefail
           df -h
           docker builder prune -a -f
-          docker rmi -f $(docker image ls -a | grep -E "(node|debian|moby|ubuntu|alpine)" | awk 'NR>1 {print $3}')
+          # docker rmi -f $(docker image ls -a | grep -E "(node|debian|moby|ubuntu|alpine)" | awk 'NR>1 {print $3}')
           df -h
 
           # debug
