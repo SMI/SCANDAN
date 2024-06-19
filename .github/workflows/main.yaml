@@ -55,6 +55,14 @@ jobs:
           docker tag "$img:$tag" "$img:latest"
           echo "img=$img" >> "$GITHUB_ENV"
           echo "tag=$tag" >> "$GITHUB_ENV"
+      - name: free disk space
+        if: env.SKIP == '0'
+        run: |
+          set -euxo pipefail
+          df -h
+          docker builder prune -a -f
+          docker rmi -f $(docker image ls -a | grep -v "${{ matrix.package }}" | awk 'NR>1 {print $3}')
+          df -h
       - name: run trivy
         if: env.SKIP == '0'
         uses: aquasecurity/trivy-action@master
