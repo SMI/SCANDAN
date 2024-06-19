@@ -46,7 +46,8 @@ jobs:
 
           # debug
           docker image ls -a --digests --no-trunc
-          tree -d -L 3 /mnt
+          ls -l /
+          mkdir -p /mnt/tmp
       - name: build image
         if: env.SKIP == '0'
         run: |
