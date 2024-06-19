@@ -37,6 +37,7 @@ jobs:
         uses: jlumbroso/free-disk-space@main
         with:
           tool-cache: true
+          docker-images: false
       - name: build image
         if: env.SKIP == '0'
         run: |
@@ -55,7 +56,7 @@ jobs:
           set -euxo pipefail
           df -h
           docker builder prune -a -f
-          # docker rmi -f $(docker image ls -a | grep -E "(node|debian|moby|ubuntu|alpine)" | awk 'NR>1 {print $3}')
+          docker rmi -f $(docker image ls -a | grep -E "(node|debian|moby|ubuntu|alpine)" | awk 'NR>1 {print $3}')
           df -h
 
           # debug
