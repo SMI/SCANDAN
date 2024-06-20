@@ -70,7 +70,7 @@ jobs:
             -v "${out_dir}":/out \
             docker.io/aquasec/trivy:0.52.2 \
               image \
-              --scaners vuln \
+              --scanners vuln \
               --severity MEDIUM,HIGH,CRITICAL \
               --output /out/dependency-results.sbom.json \
               "$img:$tag"
