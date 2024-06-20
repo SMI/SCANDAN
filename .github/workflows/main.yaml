@@ -32,11 +32,31 @@ jobs:
             SKIP=1
           fi
           echo "SKIP=$SKIP" >> "$GITHUB_ENV"
-      - name: Run insightsengineering/disk-space-reclaimer@v1
+      - name: Run jlumbroso/free-disk-space@main
         if: env.SKIP == '0'
-        uses: insightsengineering/disk-space-reclaimer@v1
+        uses: jlumbroso/free-disk-space@main
         with:
-          tools-cache: true
+          tool-cache: true
+      - name: free disk space
+        if: env.SKIP == '0'
+        run: |
+          set -euxo pipefail
+          df -h
+          # From https://github.com/jlumbroso/free-disk-space/pull/24
+          sudo apt-get remove -y microsoft-edge-stable --fix-missing
+          sudo apt-get remove -y snapd --fix-missing
+
+          # Debug
+          ls -l /usr/local
+          ls -l /usr/local/lib*
+          ls -l /usr/local/share
+          ls -l /opt
+
+          # Extras
+          sudo rm -rf /usr/share/swift
+          sudo rm -rf /opt/hostedtoolcache/
+
+          df -h
       - name: build image
         if: env.SKIP == '0'
         run: |
