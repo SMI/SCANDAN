@@ -32,9 +32,9 @@ jobs:
             SKIP=1
           fi
           echo "SKIP=$SKIP" >> "$GITHUB_ENV"
-      - name: Run jlumbroso/free-disk-space@main
+      - name: Run insightsengineering/disk-space-reclaimer@v1
         if: env.SKIP == '0'
-        uses: jlumbroso/free-disk-space@main
+        uses: insightsengineering/disk-space-reclaimer@v1
         with:
           tool-cache: true
       - name: build image
