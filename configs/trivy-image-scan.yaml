@@ -1,0 +1,7 @@
+---
+severity:
+  - MEDIUM
+  - HIGH
+  - CRITICAL
+exit-code: 1
+include-non-failures: true
