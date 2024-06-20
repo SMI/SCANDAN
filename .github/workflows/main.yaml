@@ -32,6 +32,9 @@ jobs:
             SKIP=1
           fi
           echo "SKIP=$SKIP" >> "$GITHUB_ENV"
+      - name: Trivy Dockerfile misconfiguration check
+        if: env.SKIP == '0'
+        run: ./bin/trivy-misconfig-dockerfile.bash "software/${{ matrix.package }}/Dockerfile"
       - name: Run jlumbroso/free-disk-space@main
         if: env.SKIP == '0'
         uses: jlumbroso/free-disk-space@main
