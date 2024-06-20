@@ -35,6 +35,9 @@ jobs:
       - name: Trivy Dockerfile misconfiguration check
         if: env.SKIP == '0'
         run: ./bin/trivy-misconfig-dockerfile.bash "software/${{ matrix.package }}/Dockerfile"
+      - name: run hadolint
+        if: env.SKIP == '0'
+        run: ./bin/hadolint.bash "software/${{ matrix.package }}/Dockerfile"
       - name: Run jlumbroso/free-disk-space@main
         if: env.SKIP == '0'
         uses: jlumbroso/free-disk-space@main
