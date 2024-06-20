@@ -67,7 +67,7 @@ jobs:
           out_dir=$(mktemp -d)
           docker run \
             -v /var/run/docker.sock:/var/run/docker.sock \
-            -v "${out_dir}":/out
+            -v "${out_dir}":/out \
             docker.io/aquasec/trivy:0.52.2 \
               image \
               --scaners vuln \
