@@ -32,16 +32,34 @@ jobs:
             SKIP=1
           fi
           echo "SKIP=$SKIP" >> "$GITHUB_ENV"
+      - name: Run jlumbroso/free-disk-space@main
+        if: env.SKIP == '0'
+        uses: jlumbroso/free-disk-space@main
+        with:
+          tool-cache: true
       - name: free disk space
         if: env.SKIP == '0'
         run: |
           set -euxo pipefail
-          df -h
-          sudo rm -rf /usr/share/dotnet
-          sudo rm -rf /usr/local/lib/android
-          sudo rm -rf /usr/local/share/boost
-          sudo rm -rf /opt/ghc
-          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+          # From https://github.com/jlumbroso/free-disk-space/pull/24
+          sudo apt-get remove -y microsoft-edge-stable --fix-missing
+          sudo apt-get remove -y snapd --fix-missing
+          # Extras
+          sudo rm -rf /usr/share/swift
+          sudo rm -rf /opt/hostedtoolcache
+          sudo rm -rf /usr/local/aws*
+          sudo rm -rf /usr/local/julia*
+          sudo rm -rf /usr/local/lib/R
+          sudo rm -rf /usr/local/lib/node_modules
+          sudo rm -rf /usr/local/share/chromium
+          sudo rm -rf /usr/local/share/chromedriver-linux64
+          sudo rm -rf /usr/local/share/edge_driver
+          sudo rm -rf /usr/local/share/gecko_driver
+          sudo rm -rf /usr/share/java/selenium-server.jar
+          sudo rm -rf /usr/local/share/
+          sudo rm -rf /opt/az
+          sudo rm -rf /opt/mssql-tools
+          sudo rm -rf /opt/microsoft
           df -h
       - name: build image
         if: env.SKIP == '0'
@@ -55,22 +73,33 @@ jobs:
           docker tag "$img:$tag" "$img:latest"
           echo "img=$img" >> "$GITHUB_ENV"
           echo "tag=$tag" >> "$GITHUB_ENV"
+      - name: free disk space
+        if: env.SKIP == '0'
+        run: |
+          set -euxo pipefail
+          docker builder prune --all --force
+          df -h
       - name: run trivy
         if: env.SKIP == '0'
-        uses: aquasecurity/trivy-action@master
-        with:
-          image-ref: "${{ env.img }}:${{ env.tag }}"
-          format: 'github'
-          output: 'dependency-results.sbom.json'
-          github-pat: "${{ secrets.GITHUB_TOKEN }}"
-          severity: 'MEDIUM,CRITICAL,HIGH'
-          scanners: "vuln"
+        run: |
+          set -euxo pipefail
+          report_dir=$(mktemp -d)
+          echo "report_dir=$report_dir" >> "$GITHUB_ENV"
+          docker run \
+            -v /var/run/docker.sock:/var/run/docker.sock \
+            -v "${report_dir}":/out \
+            docker.io/aquasec/trivy:0.52.2 \
+              image \
+              --scanners vuln \
+              --severity MEDIUM,HIGH,CRITICAL \
+              --output /out/dependency-results.sbom.json \
+              "$img:$tag"
       - name: upload trivy report
         if: env.SKIP == '0' && !cancelled()
         uses: actions/upload-artifact@v4
         with:
           name: 'trivy-sbom-report-${{ matrix.package }}'
-          path: 'dependency-results.sbom.json'
+          path: '${{ env.report_dir }}/dependency-results.sbom.json'
       - name: push image
         if: env.SKIP == '0' && github.ref == 'refs/heads/main'
         run: |
