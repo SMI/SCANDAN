@@ -41,7 +41,6 @@ jobs:
         if: env.SKIP == '0'
         run: |
           set -euxo pipefail
-          df -h
           # From https://github.com/jlumbroso/free-disk-space/pull/24
           sudo apt-get remove -y microsoft-edge-stable --fix-missing
           sudo apt-get remove -y snapd --fix-missing
@@ -78,45 +77,29 @@ jobs:
         if: env.SKIP == '0'
         run: |
           set -euxo pipefail
+          docker builder prune --all --force
           df -h
-          docker builder prune -a -f
-          # docker rmi -f $(docker image ls -a | grep -E "(node|debian|moby|ubuntu|alpine)" | awk 'NR>1 {print $3}')
-          df -h
-
-          # debug
-          docker image ls -a --digests --no-trunc
       - name: run trivy
         if: env.SKIP == '0'
         run: |
           set -euxo pipefail
-          out_dir=$(mktemp -d)
+          report_dir=$(mktemp -d)
+          echo "report_dir=$report_dir" >> "$GITHUB_ENV"
           docker run \
             -v /var/run/docker.sock:/var/run/docker.sock \
-            -v "${out_dir}":/out \
+            -v "${report_dir}":/out \
             docker.io/aquasec/trivy:0.52.2 \
               image \
               --scanners vuln \
               --severity MEDIUM,HIGH,CRITICAL \
               --output /out/dependency-results.sbom.json \
               "$img:$tag"
-          ls -la "${out_dir}"
-      # - name: run trivy
-      #   if: env.SKIP == '0'
-      #   uses: aquasecurity/trivy-action@master
-      #   with:
-      #     image-ref: "${{ env.img }}:${{ env.tag }}"
-      #     format: 'github'
-      #     output: 'dependency-results.sbom.json'
-      #     github-pat: "${{ secrets.GITHUB_TOKEN }}"
-      #     severity: 'MEDIUM,CRITICAL,HIGH'
-      #     scanners: "vuln"
-      # TODO
-      # - name: upload trivy report
-      #   if: env.SKIP == '0' && !cancelled()
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: 'trivy-sbom-report-${{ matrix.package }}'
-      #     path: 'dependency-results.sbom.json'
+      - name: upload trivy report
+        if: env.SKIP == '0' && !cancelled()
+        uses: actions/upload-artifact@v4
+        with:
+          name: 'trivy-sbom-report-${{ matrix.package }}'
+          path: '${{ env.report_dir }}/dependency-results.sbom.json'
       - name: push image
         if: env.SKIP == '0' && github.ref == 'refs/heads/main'
         run: |
