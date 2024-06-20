@@ -51,10 +51,19 @@ jobs:
           ls -l /usr/local/lib*
           ls -l /usr/local/share
           ls -l /opt
+          ls -l /opt/microsoft
 
           # Extras
           sudo rm -rf /usr/share/swift
-          sudo rm -rf /opt/hostedtoolcache/
+          sudo rm -rf /opt/hostedtoolcache
+          sudo rm -rf /usr/local/aws*
+          sudo rm -rf /usr/local/julia*
+          sudo rm -rf /usr/local/lib/R
+          sudo rm -rf /usr/local/lib/node_modules
+          sudo rm -rf /usr/local/share/chromium
+          sudo rm -rf /usr/local/share/chromium
+          sudo rm -rf /opt/az
+          sudo rm -rf /opt/mssql-tools
 
           df -h
       - name: build image
