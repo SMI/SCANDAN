@@ -3,13 +3,13 @@
 set -eo pipefail
 
 if [ "$#" -ne "1" ]; then
-    echo "Usage: $0 package"
+    echo "Usage: $0 Dockerfile"
     exit 1
 fi
 
 set -u
 
-package="$1"
+dockerfile="$1"
 config="trivy-misconfig-dockerfile.yaml"
 
 if [ ! -f "./configs/${config}" ]; then
@@ -27,5 +27,5 @@ docker run \
     ghcr.io/aquasecurity/trivy:latest \
         config \
         --config "/repo/configs/${config}" \
-        "/repo/software/${package}"
+        "/repo/${dockerfile}"
 
