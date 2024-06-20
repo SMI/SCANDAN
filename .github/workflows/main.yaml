@@ -36,7 +36,7 @@ jobs:
         if: env.SKIP == '0'
         uses: insightsengineering/disk-space-reclaimer@v1
         with:
-          tool-cache: true
+          tools-cache: true
       - name: build image
         if: env.SKIP == '0'
         run: |
