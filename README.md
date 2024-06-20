@@ -1,4 +1,11 @@
-# SCANDAN
+# SCANDAN Software
+
+This repository hosts several software packages which have been packaged into Docker images.
+
+| Image      | Pull Command | TRE Compatible? | Notes |
+| ---------- | ------------ | --------------- | ----- |
+| [Freesurfer](https://surfer.nmr.mgh.harvard.edu/fswiki/FreeSurferWiki)| `docker pull ghcr.io/smi/freesurfer:latest`| 🚧 |Requires a license file|
+| [FSL](https://fsl.fmrib.ox.ac.uk/fsl/docs) | `docker pull ghcr.io/smi/fsl:latest` | 🚧 ||
 
 ## Usage notes
 
