@@ -45,14 +45,6 @@ jobs:
           # From https://github.com/jlumbroso/free-disk-space/pull/24
           sudo apt-get remove -y microsoft-edge-stable --fix-missing
           sudo apt-get remove -y snapd --fix-missing
-
-          # Debug
-          ls -l /usr/local
-          ls -l /usr/local/lib*
-          ls -l /usr/local/share
-          ls -l /opt
-          ls -l /opt/microsoft
-
           # Extras
           sudo rm -rf /usr/share/swift
           sudo rm -rf /opt/hostedtoolcache
@@ -61,10 +53,14 @@ jobs:
           sudo rm -rf /usr/local/lib/R
           sudo rm -rf /usr/local/lib/node_modules
           sudo rm -rf /usr/local/share/chromium
-          sudo rm -rf /usr/local/share/chromium
+          sudo rm -rf /usr/local/share/chromedriver-linux64
+          sudo rm -rf /usr/local/share/edge_driver
+          sudo rm -rf /usr/local/share/gecko_driver
+          sudo rm -rf /usr/share/java/selenium-server.jar
+          sudo rm -rf /usr/local/share/
           sudo rm -rf /opt/az
           sudo rm -rf /opt/mssql-tools
-
+          sudo rm -rf /opt/microsoft
           df -h
       - name: build image
         if: env.SKIP == '0'
