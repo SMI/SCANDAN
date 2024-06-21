@@ -94,9 +94,10 @@ jobs:
           report_dir=$(mktemp -d)
           echo "report_dir=$report_dir" >> "$GITHUB_ENV"
           docker run \
+            --pull always \
             -v /var/run/docker.sock:/var/run/docker.sock \
             -v "${report_dir}":/out \
-            docker.io/aquasec/trivy:0.52.2 \
+            ghcr.io/aquasecurity/trivy:latest \
               image \
               --scanners vuln \
               --severity MEDIUM,HIGH,CRITICAL \
