@@ -1,7 +1,7 @@
 FROM docker.io/ubuntu@sha256:e9569c25505f33ff72e88b2990887c9dcf230f23259da296eb814fc2b41af999
 
 ARG FREESURFER_VERSION="7.4.1"
-ARG FREESURFER_IMAGE_REVISION="1"
+ARG FREESURFER_IMAGE_REVISION="2"
 ARG FREESURFER_DEB_MD5="bfe85dd76677cfb7ca2b247b9ac6148e"
 
 ENV \
@@ -78,6 +78,8 @@ RUN : \
     && dpkg -i "${deb}" \
     && rm "${deb}" \
     && :
+
+RUN mkdir /safe_data /safe_outputs /scratch
 
 RUN groupadd --system nonroot && useradd --no-log-init --system --gid nonroot nonroot
 USER nonroot
