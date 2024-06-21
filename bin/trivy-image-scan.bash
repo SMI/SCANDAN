@@ -23,7 +23,7 @@ TRIVY_IMG="ghcr.io/aquasecurity/trivy:latest"
 set -x
 
 # Put the full image reference in a file
-docker inspect --format='{{index .RepoDigests 0}}' "${image}" > "${reports_dir}/image.txt"
+docker inspect --format="{{index .RepoDigests 0}}" "${image}" > "${reports_dir}/image.txt"
 
 docker pull "${TRIVY_IMG}"
 
