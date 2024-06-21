@@ -91,24 +91,15 @@ jobs:
         if: env.SKIP == '0'
         run: |
           set -euxo pipefail
-          report_dir=$(mktemp -d)
-          echo "report_dir=$report_dir" >> "$GITHUB_ENV"
-          docker run \
-            --pull always \
-            -v /var/run/docker.sock:/var/run/docker.sock \
-            -v "${report_dir}":/out \
-            ghcr.io/aquasecurity/trivy:latest \
-              image \
-              --scanners vuln \
-              --severity MEDIUM,HIGH,CRITICAL \
-              --output /out/dependency-results.sbom.json \
-              "$img:$tag"
+          export reports_dir=$(mktemp -d)
+          echo "reports_dir=$reports_dir" >> "$GITHUB_ENV"
+          ./bin/trivy-image-scan.bash "$img:$tag"
       - name: upload trivy report
         if: env.SKIP == '0' && !cancelled()
         uses: actions/upload-artifact@v4
         with:
-          name: 'trivy-sbom-report-${{ matrix.package }}'
-          path: '${{ env.report_dir }}/dependency-results.sbom.json'
+          name: 'trivy-reports-${{ matrix.package }}'
+          path: '${{ env.reports_dir }}/'
       - name: push image
         if: env.SKIP == '0' && github.ref == 'refs/heads/main'
         run: |
