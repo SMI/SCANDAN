@@ -1,8 +1,14 @@
 ---
+scan:
+  scanners:
+  - vuln
+  - secret
+  - license
 severity:
+  - UNKNOWN
+  - LOW
   - MEDIUM
   - HIGH
   - CRITICAL
-exit-code: 1
 include-non-failures: true
 timeout: 30m

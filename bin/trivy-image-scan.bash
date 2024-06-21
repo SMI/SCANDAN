@@ -17,15 +17,40 @@ if [ ! -f "./configs/${config}" ]; then
     exit 1
 fi
 
+reports_dir="${reports_dir-./reports}"
+TRIVY_IMG="ghcr.io/aquasecurity/trivy:latest"
+
 set -x
 
+# Put the full image reference in a file
+docker inspect --format='{{index .RepoDigests 0}}' "${image}" > "${reports_dir}/image.txt"
+
+docker pull "${TRIVY_IMG}"
+
+# Generate CVE table
 docker run \
-    --pull=always \
     --rm \
     -v /var/run/docker.sock:/var/run/docker.sock \
     -v $HOME/.cache/trivy:/root/.cache \
+    -v "${reports_dir}":/reports \
     -v $(pwd):/repo \
-    ghcr.io/aquasecurity/trivy:latest \
+    "${TRIVY_IMG}" \
         image \
         --config "/repo/configs/${config}" \
+        --format table \
+        --output /reports/trivy-cve.txt \
+        "${image}"
+
+# Generate SBOM
+docker run \
+    --rm \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    -v $HOME/.cache/trivy:/root/.cache \
+    -v "${reports_dir}":/reports \
+    -v $(pwd):/repo \
+    "${TRIVY_IMG}" \
+        image \
+        --config "/repo/configs/${config}" \
+        --format cyclonedx \
+        --output /reports/trivy-sbom.json \
         "${image}"
