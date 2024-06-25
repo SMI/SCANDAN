@@ -4,6 +4,8 @@ https://www.fil.ion.ucl.ac.uk/spm/software/spm12/
 
 https://www.fil.ion.ucl.ac.uk/spm/docs/
 
+https://www.fil.ion.ucl.ac.uk/spm/software/download/
+
 ## Docker container
 
 Official image is `ghcr.io/spm/spm-docker:docker-matlab` (see https://github.com/spm/spm-docker?tab=readme-ov-file#container-registry).
