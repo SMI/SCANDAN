@@ -28,3 +28,12 @@ $ docker run --rm repronim/neurodocker \
 $ docker build --tag spm12:r7771 --file spm12-r7771.Dockerfile .
 ```
 
+## If you have MatLab
+
+* https://www.fil.ion.ucl.ac.uk/spm/download/restricted/eldorado/spm12.zip
+
+## Standalone
+
+* https://www.fil.ion.ucl.ac.uk/spm/download/restricted/utopia/MCR/glnxa64/MCRInstaller.bin
+* https://www.fil.ion.ucl.ac.uk/spm/download/restricted/utopia/spm12/spm12_r7771_R2010a.zip (for use with MCRInstaller)
+* https://www.fil.ion.ucl.ac.uk/spm/download/restricted/utopia/spm12/spm12_r7771_Linux_R2022b.zip (for use with MatLab 2022b, we have 2023b)
