@@ -1,13 +1,14 @@
-
 FROM docker.io/ubuntu@sha256:e9569c25505f33ff72e88b2990887c9dcf230f23259da296eb814fc2b41af999
 
 ARG FREESURFER_VERSION="7.4.1"
-ARG FREESURFER_IMAGE_REVISION="2"
+ARG FREESURFER_IMAGE_REVISION="3"
 ARG FREESURFER_DEB_MD5="bfe85dd76677cfb7ca2b247b9ac6148e"
 
 ENV \
     LANG="en_GB.UTF-8" \
-    LC_ALL="en_GB.UTF-8"
+    LC_ALL="en_GB.UTF-8" \
+    FREESURFER_HOME="/usr/local/freesurfer/${FREESURFER_VERSION}" \
+    PATH="/usr/local/freesurfer/${FREESURFER_VERSION}/bin:${PATH}"
 
 SHELL ["/bin/bash", "-euo", "pipefail", "-c"]
 
@@ -80,7 +81,11 @@ RUN : \
     && rm "${deb}" \
     && :
 
-RUN mkdir /safe_data /safe_outputs /scratch
+RUN : \
+    && groupadd --gid 10001 ces-group \
+    && useradd --uid 10001 --create-home --shell /bin/bash --gid ces-group ces-user \
+    && mkdir /safe_data /safe_outputs /scratch \
+    && chown -R ces-user:ces-group /safe_data /safe_outputs /scratch \
+    && :
 
-RUN groupadd --system nonroot && useradd --no-log-init --system --gid nonroot nonroot
-USER nonroot
+USER ces-user
