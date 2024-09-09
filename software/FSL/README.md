@@ -45,3 +45,32 @@ $ docker build --tag fsl:6.0.5 --file fsl605.Dockerfile .
 ```
 
 
+### Manual installation
+
+See https://fsl.fmrib.ox.ac.uk/fsl/docs/#/install/index?id=information-for-advanced-users
+and https://fsl.fmrib.ox.ac.uk/fsl/docs/#/install/linux
+
+Download installer from `https://git.fmrib.ox.ac.uk/fsl/conda/installer/-/raw/main/fsl/installer/fslinstaller.py?ref_type=heads&inline=false`
+
+Edit installer to better handle installing into a directory which already exists:
+```
+In overwrite_destdir
+    return # XXX added
+    # generate a unique name for the old
+In check_need_admin
+    return False # XXX added
+    return not os.access(dirname, os.W_OK | os.X_OK)
+```
+
+Edit installer to call miniconda with the `-f` option if directory already exists:
+```
+cmd = 'bash miniconda.sh -f -b -p {}'.format(ctx.basedir)
+```
+
+Run it like this:
+```
+python3 ./fslinstaller.py --skip_registration --no_self_update -d /usr/local/fsl 
+   [--no_env] if you don't want it to edit your bashrc/profile scripts
+```
+
+It modifies `~/.profile` and `~/Documents/MATLAB/startup.m`
