@@ -83,4 +83,7 @@ RUN : \
 
 RUN : \
     && mkdir /safe_data /safe_outputs /scratch \
+    && useradd ces-user \
     && :
+    
+USER ces-user
