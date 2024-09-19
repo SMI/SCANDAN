@@ -82,10 +82,5 @@ RUN : \
     && :
 
 RUN : \
-    && groupadd --gid 10001 ces-group \
-    && useradd --uid 10001 --create-home --shell /bin/bash --gid ces-group ces-user \
     && mkdir /safe_data /safe_outputs /scratch \
-    && chown -R ces-user:ces-group /safe_data /safe_outputs /scratch \
     && :
-
-USER ces-user
