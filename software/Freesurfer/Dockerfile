@@ -79,11 +79,18 @@ RUN : \
     && echo "${FREESURFER_DEB_MD5} ${deb}" | md5sum -c \
     && dpkg -i "${deb}" \
     && rm "${deb}" \
+    && cd "${FREESURFER_HOME}" \
+    && rm -rf \
+        average/mult-comp-cor \
+        lib/cuda \
+        lib/qt \
+        subjects \
+        trctrain \
     && :
 
 RUN : \
     && mkdir /safe_data /safe_outputs /scratch \
     && useradd ces-user \
     && :
-    
+
 USER ces-user
