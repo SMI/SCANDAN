@@ -10,7 +10,7 @@ ENV \
     FREESURFER_HOME="/usr/local/freesurfer/${FREESURFER_VERSION}" \
     PATH="/usr/local/freesurfer/${FREESURFER_VERSION}/bin:${PATH}"
 
-SHELL ["/bin/bash", "-euo", "pipefail", "-c"]
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 RUN : \
     && apt-get update -qq \
