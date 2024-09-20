@@ -79,7 +79,7 @@ RUN : \
     && echo "${FREESURFER_DEB_MD5} ${deb}" | md5sum -c \
     && dpkg -i "${deb}" \
     && rm "${deb}" \
-    && cd "${FREESURFER_HOME}" \
+    && pushd "${FREESURFER_HOME}" \
     && rm -rf \
         average/mult-comp-cor \
         lib/cuda \
