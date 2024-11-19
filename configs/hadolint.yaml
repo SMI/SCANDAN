@@ -1,3 +1,5 @@
 ignored:
   # Ignore "Pin versions in apt get install"
   - DL3008
+  # Ignore "Last USER should not be root"
+  - DL3002
