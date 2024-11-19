@@ -27,5 +27,6 @@ docker run \
     ghcr.io/aquasecurity/trivy:latest \
         config \
         --config "/repo/configs/${config}" \
+        --ignorefile /repo/configs/.trivyignore \
         "/repo/${dockerfile}"
 

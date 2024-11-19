@@ -37,6 +37,7 @@ docker run \
     "${TRIVY_IMG}" \
         image \
         --config "/repo/configs/${config}" \
+        --ignorefile /repo/configs/.trivyignore \
         --format table \
         --output /reports/trivy-cve.txt \
         "${image}"
@@ -51,6 +52,7 @@ docker run \
     "${TRIVY_IMG}" \
         image \
         --config "/repo/configs/${config}" \
+        --ignorefile /repo/configs/.trivyignore \
         --format cyclonedx \
         --output /reports/trivy-sbom.json \
         "${image}"
