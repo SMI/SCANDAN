@@ -83,7 +83,6 @@ RUN : \
     && rm -rf \
         average/mult-comp-cor \
         lib/cuda \
-        lib/qt \
         subjects \
         trctrain \
     && :
