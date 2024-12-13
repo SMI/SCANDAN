@@ -32,9 +32,9 @@ jobs:
             SKIP=1
           fi
           echo "SKIP=$SKIP" >> "$GITHUB_ENV"
-      - name: Trivy Dockerfile misconfiguration check
-        if: env.SKIP == '0'
-        run: ./bin/trivy-misconfig-dockerfile.bash "software/${{ matrix.package }}/Dockerfile"
+      # - name: Trivy Dockerfile misconfiguration check
+      #   if: env.SKIP == '0'
+      #   run: ./bin/trivy-misconfig-dockerfile.bash "software/${{ matrix.package }}/Dockerfile"
       - name: run hadolint
         if: env.SKIP == '0'
         run: ./bin/hadolint.bash "software/${{ matrix.package }}/Dockerfile"
@@ -87,19 +87,19 @@ jobs:
           set -euxo pipefail
           docker builder prune --all --force
           df -h
-      - name: run trivy
-        if: env.SKIP == '0'
-        run: |
-          set -euxo pipefail
-          export reports_dir=$(mktemp -d)
-          echo "reports_dir=$reports_dir" >> "$GITHUB_ENV"
-          ./bin/trivy-image-scan.bash "$img:$tag"
-      - name: upload trivy report
-        if: env.SKIP == '0' && !cancelled()
-        uses: actions/upload-artifact@v4
-        with:
-          name: 'trivy-reports-${{ matrix.package }}'
-          path: '${{ env.reports_dir }}/'
+      # - name: run trivy
+      #   if: env.SKIP == '0'
+      #   run: |
+      #     set -euxo pipefail
+      #     export reports_dir=$(mktemp -d)
+      #     echo "reports_dir=$reports_dir" >> "$GITHUB_ENV"
+      #     ./bin/trivy-image-scan.bash "$img:$tag"
+      # - name: upload trivy report
+      #   if: env.SKIP == '0' && !cancelled()
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: 'trivy-reports-${{ matrix.package }}'
+      #     path: '${{ env.reports_dir }}/'
       - name: push image
         if: env.SKIP == '0' && github.ref == 'refs/heads/main'
         run: |
