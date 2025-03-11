@@ -1,11 +1,13 @@
 # SCANDAN Software
 
-This repository hosts several software packages which have been packaged into Docker images.
+This repository hosts several imaging-related software packages which have been compiled into Docker images for use in Trusted Reserach Environments (TREs).
 
-| Image      | Pull Command | TRE Compatible? | Notes |
+| Software | Image | Notes |
 | ---------- | ------------ | --------------- | ----- |
-| [Freesurfer](https://surfer.nmr.mgh.harvard.edu/fswiki/FreeSurferWiki)| `docker pull ghcr.io/smi/freesurfer:latest`| 🚧 |Requires a license file|
-| [FSL](https://fsl.fmrib.ox.ac.uk/fsl/docs) | `docker pull ghcr.io/smi/fsl:latest` | 🚧 ||
+| [Freesurfer](https://surfer.nmr.mgh.harvard.edu/fswiki/FreeSurferWiki)| `ghcr.io/smi/freesurfer:latest`| Requires a user-provided license file|
+| [FSL](https://fsl.fmrib.ox.ac.uk/fsl/docs) | `ghcr.io/smi/fsl:latest` ||
+| [MRIcron](https://github.com/neurolabusc/MRIcron)| `ghcr.io/smi/mricron:latest`||
+| [MRIcroGL](https://github.com/rordenlab/MRIcroGL)| `ghcr.io/smi/mricrogl:latest`||
 
 ## Usage notes
 
