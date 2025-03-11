@@ -9,6 +9,8 @@ This repository hosts several imaging-related software packages which have been 
 | [MRIcron](https://github.com/neurolabusc/MRIcron)| `ghcr.io/smi/mricron:latest`||
 | [MRIcroGL](https://github.com/rordenlab/MRIcroGL)| `ghcr.io/smi/mricrogl:latest`||
 
+See EPCC's [TRE Container User Guide](https://docs.eidf.ac.uk/safe-haven-services/tre-container-user-guide/introduction/) for more information.
+
 ## Usage notes
 
 ### Running graphical applications via Docker
