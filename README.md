@@ -11,6 +11,8 @@ This repository hosts several imaging-related software packages which have been 
 
 See EPCC's [TRE Container User Guide](https://docs.eidf.ac.uk/safe-haven-services/tre-container-user-guide/introduction/) for more information.
 
+Containers for other applications can be found in EPCC's [TRE Container Samples](https://github.com/EPCCed/tre-container-samples) repository.
+
 ## Usage notes
 
 ### Running graphical applications via Docker
