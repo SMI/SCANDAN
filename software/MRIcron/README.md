@@ -34,3 +34,30 @@ docker push ghcr.io/howff/mricron:latest
 ```
 
 Any DICOM files in the current directory will be visible inside /dicom when using dcmaudit.
+
+## Run inside the NSH with podman
+
+Pull the container into the NSH, where `<username>` is the github username where you pushed your container:
+```
+ces-pull <username> <token> ghcr.io/<username>/mricron
+```
+
+Create a script to run it:
+```
+#!/bin/bash
+XSOCK=/tmp/.X11-unix
+XAUTH=/tmp/.docker.xauth.$(id -u)
+xauth nlist "$DISPLAY" | sed -e 's/^..../ffff/' | xauth -f "$XAUTH" nmerge -
+podman run --rm -it \
+ -e USER="$USER" \
+ -e DISPLAY="$DISPLAY" \
+ -e XAUTHORITY="$XAUTH" \
+ -v $XSOCK:$XSOCK \
+ -v $XAUTH:$XAUTH \
+ -v $(pwd):/dicom:ro \
+ ghcr.io/<username>/mricron "$@"
+```
+
+Any DICOM files in the current directory will be available in the /dicom directory inside the container.
+You can replace the `$(pwd)` in the last line with the directory which contains your DICOM files.
+That directory will be mounted read-only. You can add other lines for an output directory if you want to write files.
