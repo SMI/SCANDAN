@@ -1,11 +1,11 @@
 # MRIcron
 
-MRIcron is useful for older computers because it doesn't need OpenGL
+MRIcron is useful for older computers because it doesn't need OpenGL:
 ```
 curl -fLO https://github.com/neurolabusc/MRIcron/releases/latest/download/MRIcron_linux.zip
 ```
 
-Newer is MROcroGL
+Newer is MRIcroGL, but we won't use MRIcroGL for this demonstration:
 ```
 https://github.com/rordenlab/MRIcroGL/releases/download/v1.2.20220720/MRIcroGL_linux.zip
 ```
@@ -16,15 +16,15 @@ https://github.com/rordenlab/MRIcroGL/releases/download/v1.2.20220720/MRIcroGL_l
 docker build --progress=plain -t mricron .
 ```
 
-(CACHEDATE must change each time to prevent docker cache keeping an old copy of a repo from git pull)
-
 ## Push to registry
 
+Use your github token in CR_PAT.
+Replace `USERNAME` with your github username.
 ```
 export CR_PAT=ghp_XXX
 echo $CR_PAT | docker login ghcr.io -u USERNAME --password-stdin
-docker tag mricron ghcr.io/howff/mricron:latest
-docker push ghcr.io/howff/mricron:latest
+docker tag mricron ghcr.io/USERNAME/mricron:latest
+docker push ghcr.io/USERNAME/mricron:latest
 ```
 
 # Run
@@ -37,9 +37,9 @@ Any DICOM files in the current directory will be visible inside /dicom when usin
 
 ## Run inside the NSH with podman
 
-Pull the container into the NSH, where `<username>` is the github username where you pushed your container:
+Pull the container into the NSH, where `USERNAME` is the github username where you pushed your container:
 ```
-ces-pull <username> <token> ghcr.io/<username>/mricron
+ces-pull <username> <token> ghcr.io/USERNAME/mricron
 ```
 
 Create a script to run it:
@@ -55,7 +55,7 @@ podman run --rm -it \
  -v $XSOCK:$XSOCK \
  -v $XAUTH:$XAUTH \
  -v $(pwd):/dicom:ro \
- ghcr.io/<username>/mricron "$@"
+ ghcr.io/USERNAME/mricron "$@"
 ```
 
 Any DICOM files in the current directory will be available in the /dicom directory inside the container.
