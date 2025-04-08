@@ -1,0 +1,23 @@
+FROM jgoerzen/debian-base-standard
+ENV DEBIAN_FRONTEND=noninteractive
+RUN wget --no-check-certificate https://sourceforge.net/projects/lazarus/files/Lazarus%20Linux%20amd64%20DEB/Lazarus%202.0.4/lazarus-project_2.0.4-0_amd64.deb
+RUN wget --no-check-certificate https://sourceforge.net/projects/lazarus/files/Lazarus%20Linux%20amd64%20DEB/Lazarus%202.0.4/fpc-src_3.0.4-2_amd64.deb
+RUN wget --no-check-certificate https://sourceforge.net/projects/lazarus/files/Lazarus%20Linux%20amd64%20DEB/Lazarus%202.0.4/fpc-laz_3.0.4-1_amd64.deb
+RUN apt-get update
+RUN apt -yq install ./fpc-src_3.0.4-2_amd64.deb
+RUN apt -yq install ./fpc-laz_3.0.4-1_amd64.deb 
+RUN apt -yq install ./lazarus-project_2.0.4-0_amd64.deb 
+RUN apt-get -yq install libgl1-mesa-dev
+RUN apt-get -yq install build-essential git
+RUN git clone https://github.com/rordenlab/MRIcroGL12.git
+RUN git clone https://github.com/neurolabusc/Metal-Demos
+RUN git clone https://github.com/Alexey-T/Python-for-Lazarus.git
+RUN lazbuild --add-package Python-for-Lazarus/python4lazarus/python4lazarus_package.lpk  --build-ide=
+RUN lazbuild --add-package lazopenglcontext --build-ide=
+RUN (cd MRIcroGL12; lazbuild -B ./MRIcroGL.lpr)
+# create distribution
+RUN mkdir ~/distro  
+RUN mkdir ~/distro/MRIcroGL
+RUN cp ./MRIcroGL12/MRIcroGL ~/distro/MRIcroGL/MRIcroGL
+RUN cp -a ./MRIcroGL12/Resources/ ~/distro/MRIcroGL
+CMD ["distro/MRIcroGL/MRIcroGL"]
