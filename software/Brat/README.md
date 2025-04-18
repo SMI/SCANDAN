@@ -2,11 +2,9 @@
 
 https://brat.nlplab.org/
 
-BRAT requires a web server and is Python 2.
+This is a Python 3 conversion of the original Python 2 tool, from https://github.com/sikvesta/brat
 
-Newer versions, including Python 3 support, are on github 
-https://github.com/nlplab/brat
+It runs standalone, including its own webserver.
 
-Some people have forked it and made improvements, see
-https://github.com/nlplab/brat/forks
+Other forks exist: https://github.com/nlplab/brat/forks
 e.g. https://github.com/nlplab/brat/compare/master...andreasvc:brat:master
